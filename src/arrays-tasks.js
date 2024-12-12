@@ -314,7 +314,7 @@ function flattenArray(nestedArray) {
  *   selectMany(['one','two','three'], (x) => x.split('')) =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
 function selectMany(arr, childrenSelector) {
-  return arr.map(childrenSelector).flat(Infinity);
+  return arr.flatMap(childrenSelector);
 }
 
 /**
@@ -622,16 +622,12 @@ function sortDigitNamesByNumericOrder(arr) {
  *
  */
 function swapHeadAndTail(arr) {
-  if (arr.length === 1) return arr;
-  const a = arr;
-  const middle = Math.floor(arr.length / 2);
-  const b = arr.flatMap((el, i) => {
-    if (i <= middle) {
-      [a[i], a[middle + i]] = [a[middle + i], a[i]];
-    }
-    return a;
-  });
-  return b;
+  const middle = arr.length / 2;
+  return [0, 0, 0].flatMap((_, i) =>
+    i !== 1
+      ? arr.splice(-middle)
+      : arr.splice(Math.floor(middle), Math.ceil(middle))
+  );
 }
 
 module.exports = {
