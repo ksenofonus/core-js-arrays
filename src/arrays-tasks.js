@@ -21,8 +21,9 @@
  *    getIntervalArray(3, 3) => [ 3 ]
  */
 function getIntervalArray(start, end) {
-  const arr = [...Array(end - start + 1).keys()].map((el) => el + start);
-  return arr;
+  return Array.from({ length: end - start + 1 })
+    .fill(0)
+    .map((_, i) => i + start);
 }
 
 /**
@@ -70,7 +71,7 @@ function sumArrays(arr1, arr2) {
  *    findElement([0, 1, 2, 3, 4, 5], 5) => 5
  */
 function findElement(arr, value) {
-  return arr.findIndex((el) => el === value);
+  return arr.indexOf(value);
 }
 
 /**
@@ -622,12 +623,15 @@ function sortDigitNamesByNumericOrder(arr) {
  */
 function swapHeadAndTail(arr) {
   if (arr.length === 1) return arr;
+  const a = arr;
   const middle = Math.floor(arr.length / 2);
-  const head = arr.slice(0, middle);
-  const tail = arr.slice(-middle);
-  arr.splice(0, middle, tail);
-  arr.splice(-middle, middle, head);
-  return arr.flat();
+  const b = arr.flatMap((el, i) => {
+    if (i <= middle) {
+      [a[i], a[middle + i]] = [a[middle + i], a[i]];
+    }
+    return a;
+  });
+  return b;
 }
 
 module.exports = {
